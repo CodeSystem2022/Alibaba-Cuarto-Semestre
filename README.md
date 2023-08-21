@@ -1,3 +1,16 @@
+
+<div align="center">
+
+![bournout](https://i.postimg.cc/Rh7VpN52/Alibab.jpg)
+
+## Alibabá y los Programadores
+
+Somos un equipo conformado por estudiantes de la Universidad Tecnológica Nacional de San Rafael, inscritos en la carrera de Tecnicatura Universitaria en Programación. El repositorio que presentamos tiene como objetivo principal respaldar las asignaturas de Laboratorio VI y Metodología de Sistemas. Nuestra metodología de trabajo se basa en la implementación del enfoque Scrum, reconocido por su eficacia en la gestión ágil de proyectos.
+
+## Cuarto Semestre
+</div>
+
+
 ![ezgif com-video-to-gif](https://github.com/CodeSystem2022/Alibaba-Cuarto-Semestre/assets/111541137/371e14a3-222f-4b2b-8319-01b36a728d57)
 
 <details>
@@ -13,9 +26,4 @@ Sebastián Lerotich - [Sebastián Lerotich](https://github.com/SebaLerotich) <br
 Murua Juan Ignacio - [Murua Juan Ignacio](https://github.com/JuanIgnaMurua) <br>
 </details>
 
-<details>
-<summary>  Metoddología de trabajo: SCRUM</summary><br>
-
-Con GitHub, aprovechamos todos los beneficios de la metodología Scrum para gestionar este proyecto de manera más eficiente y lograr resultados exitosos. Mediante una mejor colaboración y visibilidad, una mayor flexibilidad y adaptabilidad, la entrega incremental de valor, la retroalimentación constante y la mejora continua, así como la transparencia y trazabilidad, podemos optimizar nuestra forma de trabajo y obtener los mejores resultados posibles.<br>
-</details>
 
