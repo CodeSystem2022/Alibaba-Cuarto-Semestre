@@ -178,12 +178,12 @@ public class EstudianteDAO {
         //    System.out.println("No se pudo modificar el estudiante: " + estudianteModificado);
 
         //Eliminar un estudiante
-        //var estudianteEliminar = new Estudiante(2);
-        //var eliminado = estudianteDao.eliminarEstudiante(estudianteEliminar);
-        //if (eliminado)
-        //    System.out.println("Estudiante eliminado: " + estudianteEliminar);
-        //else
-        //    System.out.println("No se pudo eliminar el estudiante: " + estudianteEliminar);
+        var estudianteEliminar = new Estudiante(4);
+        var eliminado = estudianteDao.eliminarEstudiante(estudianteEliminar);
+        if (eliminado)
+            System.out.println("Estudiante eliminado: " + estudianteEliminar);
+        else
+            System.out.println("No se pudo eliminar el estudiante: " + estudianteEliminar);
 
         //Listar los estudiantes
         System.out.println("Listado de estudiantes");
