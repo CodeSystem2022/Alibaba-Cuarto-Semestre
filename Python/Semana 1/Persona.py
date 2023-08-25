@@ -1,61 +1,33 @@
-import logging as log
-
-
-class Persona:
-    def __init__(self, id_persona=None, nombre=None, apellido=None, email=None):
-        self._id_persona = id_persona
-        self._nombre = nombre
-        self._apellido = apellido
-        self._email = email
+class Usuario:
+    def __init__(self, id_usuario=None, username=None, password=None):
+        self._id_usuario = id_usuario
+        self._username = username
+        self._password = password
 
     def __str__(self):
-        return f'''
-           Id Persona: {self._id_persona}, 
-           Nombre: {self._nombre},
-           Apellido: {self._apellido},
-           Email: {self._email}
-        '''
+        return f'usuario: {self._id_usuario} {self._username} {self._password}'
 
-    # Métodos Getters and Setters
+    #Métodos Get y Set
     @property
-    def id_persona(self):
-        return self._id_persona
+    def id_usuario(self):
+        return self._id_usuario
 
-    @id_persona.setter
-    def id_persona(self, id_persona):
-        self._id_persona = id_persona
+    @id_usuario.setter
+    def id_usuario(self,id_usuario):
+        self.id_usuario = id_usuario
 
     @property
-    def nombre(self):
-        return self._nombre
+    def username(self):
+        return self._username
 
-    @nombre.setter
-    def nombre(self, nombre):
-        self._nombre = nombre
-
-    @property
-    def apellido(self):
-        return self._apellido
-
-    @apellido.setter
-    def apellido(self, apellido):
-        self._apellido = apellido
+    @username.setter
+    def username(self, username):
+        self._username = username
 
     @property
-    def email(self):
-        return self._email
+    def password(self):
+        return self._password
 
-    @email.setter
-    def email(self, email):
-        self._email = email
-
-
-if __name__ == '__main__':
-    persona3 = Persona(3, 'lalala', 'latero', 'lsjdfklsj')
-    print(persona3)
-    persona1 = Persona(1, 'Juan', 'Perez', 'jperez@mail.com')
-    log.debug(persona1)
-    persona2 = Persona(nombre='Jose', apellido='Lopez', email='ljose@mail.com')
-    log.debug(persona2)
-    persona1 = Persona(id_persona=1)
-    log.debug(persona1)
+    @password.setter
+    def password(self, password):
+        self._password = password

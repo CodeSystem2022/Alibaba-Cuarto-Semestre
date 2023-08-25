@@ -74,4 +74,4 @@ if __name__ == '__main__':
 # Seleccionamos objetos
     personas = personaDAO.seleccionar()
     for persona in personas:
-        print(persona)
+        log.debug(persona)
