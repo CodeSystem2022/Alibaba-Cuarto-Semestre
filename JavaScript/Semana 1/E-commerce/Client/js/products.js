@@ -4,7 +4,7 @@ const productos=[
     productName: "Banana",
     price: 480,
     quanty: 1,
-    img: "/client/media/banana.png"
+    img: "../media/banana.png"
 },
 
 {
@@ -12,7 +12,7 @@ const productos=[
     productName: "Leche",
     price: 950,
     quanty: 1,
-    img: "/client/media/leche.png"
+    img: "../media/leche.png"
 
 },
 {
@@ -20,7 +20,7 @@ const productos=[
     productName:"Pollo",
     price: 750,
     quanty: 1,
-    img:"/client/media/pollo.png"
+    img:"../media/pollo.png"
 
 },
 {
@@ -28,5 +28,5 @@ const productos=[
     productName:"Mayonesa",
     price: 510,
     quanty: 1,
-    img:"/client/media/mayonesa.png"
+    img:"../media/mayonesa.png"
 }]
