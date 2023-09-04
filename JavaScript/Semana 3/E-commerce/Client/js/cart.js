@@ -1,32 +1,34 @@
-const modalContainer = document.getElementById("modal-container");
-const modalOverlay = document.getElementById("modal-overlay");
+const modalContainter=document.getElementById("modal-container");
+const modalOverlay= document.getElementById("modal-overlay");
 
-const cartBtn = document.getElementById("cart-btn");
+const cartBtn= document.getElementById("cart-btn");
 
-const dispayCart = () => {
-    modalContainer.innerHTML = "";
-    modalContainer.style.display = "block";
-    modalOverlay.style.display = "display";
-    //modal Header
-    const modalHeader = document.createElement("div");
+
+
+const displayCart =() =>{
+    modalContainter.innerHTML="";
+    modalContainter.style.display="block";
+    modalOverlay.style.display="block";
+    //modal header
+    const modalHeader=document.createElement("div");
 
     const modalClose = document.createElement("div");
-    modalClose.innerText = "❌"
-    modalClose.className = "modal-close";
+
+    modalClose.innerText="❌";
+    modalClose.className= "modal-close";
     modalHeader.append(modalClose)
 
-    modalClose.addEventListener("click", () => {
-        modalContainer.style.display = "none";
-        modalOverlay.style.display = "none";
+    modalClose.addEventListener("click",()=>{
+        modalContainter.style.display="none";
+        modalOverlay.style.display="none";
     });
 
-    const modalTitle = document.createElement("div");
-    modalTitle.innerText = "Cart";
-    modalTitle.className = "modal-title";
+    const modalTitle= document.createElement("div");
+    modalTitle.innerText="Cart";
+    modalTitle.className="modal-title";
     modalHeader.append(modalTitle);
 
-    modalContainer.append(modalHeader);
-
+    modalContainter.append(modalHeader);
 };
 
-cartBtn.addEventListener("click", dispayCart);
+cartBtn.addEventListener("click", displayCart)
