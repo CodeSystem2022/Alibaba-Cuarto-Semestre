@@ -49,24 +49,34 @@ const displayCart =() =>{
             <div class="delete-product">❌</div>
     </div>
     `;
-    modalContainer.append(modalBody); 
-
+    modalContainer.append(modalBody);
+    
+    const decrese = modalBody.querySelector(".quantity-btn-decrese");
+    decrese.addEventListener("click", () => {
+        if(product.quanty !==1){
+        product.quanty--;
+        displayCart();
+    }
     });
+
+    const increse = modalBody.querySelector(".quantity-btn-increse");
+    increse.addEventListener("click", () => {
+        product.quanty++;
+        displayCart();
+    });
+ });
 
     // delete
     
-
+ 
     
-    
-
-
-
     // modal fotter
-    
+    const total = cart.reduce((acc, el) => acc + el.price * el.quanty, 0);
+
     const modalFooter= document.createElement("div");
     modalFooter.className="modal-footer"
     modalFooter.innerHTML=`
-    <div class="total-price">{total)</div>
+    <div class="total-price">${total}</div>
     `;
     modalContainer.append(modalFooter);
 }; 
