@@ -12,7 +12,7 @@ public class EstudianteServicio implements IEstudianteServicio {
     private EstudianteRepositorio estudianteRepositorio;
 
     @Override
-    public List<Estudiante> ListarEstudiantes(){
+    public List<Estudiante> listarEstudiantes(){
         List<Estudiante> estudiantes = estudianteRepositorio.findAll();
         return  estudiantes;
     }
@@ -27,9 +27,8 @@ public class EstudianteServicio implements IEstudianteServicio {
         estudianteRepositorio.save(estudiante);
     }
 
-    public void eliminarEstudiante(Estudiante estudiante){
+    public void eliminarEstudiante(Estudiante estudiante) {
         estudianteRepositorio.delete(estudiante);
-
     }
 
 }
