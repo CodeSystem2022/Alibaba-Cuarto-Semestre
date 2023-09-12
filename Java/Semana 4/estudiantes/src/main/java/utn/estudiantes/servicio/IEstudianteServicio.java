@@ -8,5 +8,5 @@ public interface IEstudianteServicio {
     public List<Estudiante> listarEstudiantes();
     public Estudiante buscarEstudiantePorId(Integer idEsTudiante);
     public void guardarEstudiante(Estudiante estudiante);
-    public void eliminarEstudiante(Integer idEstudiante);
+    public void eliminarEstudiante(Estudiante estudiante);
 }
