@@ -5,6 +5,7 @@ const cartBtn= document.getElementById("cart-btn");
 const cartCounter = document.getElementById("cart-counter");
 
 
+
 const displayCart =() =>{
     modalContainer.innerHTML="";
     modalContainer.style.display="block";
@@ -31,8 +32,8 @@ const displayCart =() =>{
     modalContainer.append(modalHeader);
 
     // modal body
-    if(cart.length > 0){
-    cart.forEach((product) => {
+    if (cart.length >0 ){
+    cart.forEach((product) =>{
     const modalBody= document.createElement("div");
     modalBody.className="modal-body";
     modalBody.innerHTML= `
@@ -81,14 +82,22 @@ const displayCart =() =>{
     modalFooter.className="modal-footer"
     modalFooter.innerHTML=`
     <div class="total-price">Total: ${total}</div>
+    <button class="btn-primary" id="checkout-btn"> go to checkout </button>
+    <div id="button-checkout"></div>
     `;
     modalContainer.append(modalFooter);
-    }else{
-        const modalText = document.createElement("h2");
-        modalText.className = "modal-body";
-        modalText.innerText = "your cart is empty";
-        modalContainer.append (modalText);
-    }
+    //mp;
+    const mercadopago = new MercadoPago("public_key",{
+        locale: "es-AR", //the most common are: 'pt-BR', 'es-AR' and 'en-US'
+    });
+
+    const checkoutButton = modalFooter.querySelector("#checkout-btn");
+}else{
+    const modalText = document.createElement("h2");
+    modalClose.className = "modal-body";
+    modalText.innerText = "Your cart is empty";
+    modalContainer.append(modalText);
+}
 }; 
 
 cartBtn.addEventListener("click", displayCart);
@@ -99,12 +108,13 @@ const deleteCartProduct =(id)=> {
     displayCart();
 }
 
-const displayCartCounter = () => {
-    const cartLength = cart.reduce ((acc, el) => acc + el.quanty, 0);
-    if (cartLength > 0) {
-    cartCounter.style.display = "block";
-    cartCounter.innerText = cartLength;
-    } else {
-    cartCounter.style.display = "none";
+const displayCartcounter=()=>{
+    const cartLength = cart.reduce((acc, el) => acc + el.quanty, 0);
+    if(cartLength>0){
+        cartCounter.style.display = "block";
+        cartCounter.innerText = cartLength;
+    }else{
+        cartCounter.style.display = "none";
     }
+    
 };
