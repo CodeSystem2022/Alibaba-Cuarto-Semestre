@@ -1,8 +1,8 @@
-const modalContainer=document.getElementById("modal-container");
+const   modalContainer=document.getElementById("modal-container");
 const modalOverlay= document.getElementById("modal-overlay");
 
 const cartBtn= document.getElementById("cart-btn");
-const cartCounter = document.getElementById("cart-counter");
+const cartCounter= document.getElementById("cart-counter");
 
 
 
@@ -32,7 +32,7 @@ const displayCart =() =>{
     modalContainer.append(modalHeader);
 
     // modal body
-    if (cart.length >0 ){
+    if (cart.length >0){
     cart.forEach((product) =>{
     const modalBody= document.createElement("div");
     modalBody.className="modal-body";
@@ -52,69 +52,138 @@ const displayCart =() =>{
     </div>
     `;
     modalContainer.append(modalBody);
-    
-    const decrese = modalBody.querySelector(".quantity-btn-decrese");
-    decrese.addEventListener("click", () => {
-        if(product.quanty !==1){
-        product.quanty--;
-        displayCart();
-    }
-    });
 
-    const increse = modalBody.querySelector(".quantity-btn-increse");
-    increse.addEventListener("click", () => {
+    const decrese = modalBody.querySelector(".quantity-btn-decrese")
+    decrese.addEventListener("click",()=>{
+        if(product.quanty !== 1){
+         product.quanty--;
+         displayCart();
+        }
+        displayCarCounter();
+    });
+    const increse = modalBody.querySelector(".quantity-btn-increse")
+    increse.addEventListener("click",() =>{
         product.quanty++;
         displayCart();
+        displayCarCounter();
     });
 
     // delete
-    const deleteProduct = modalBody.querySelector(".delete-product");
+    const deleteProduct= modalBody.querySelector(".delete-product");
 
-    deleteProduct.addEventListener("click", () => {
+    deleteProduct.addEventListener("click",()=>{
         deleteCartProduct(product.id);
+
     });
- });
-    
+    });
+
+
+
     // modal fotter
-    const total = cart.reduce((acc, el) => acc + el.price * el.quanty, 0);
+    const total = cart.reduce((acc,el) => acc + el.price* el.quanty, 0 );
 
     const modalFooter= document.createElement("div");
     modalFooter.className="modal-footer"
     modalFooter.innerHTML=`
-    <div class="total-price">Total: ${total}</div>
-    <button class="btn-primary" id="checkout-btn"> go to checkout </button>
+    <div class="total-price">${total}:</div>
+    <button class="btn-primary" id="checkout-btn">go to checkout</button>
     <div id="button-checkout"></div>
+
     `;
+
     modalContainer.append(modalFooter);
-    //mp;
-    const mercadopago = new MercadoPago("public_key",{
-        locale: "es-AR", //the most common are: 'pt-BR', 'es-AR' and 'en-US'
-    });
 
-    const checkoutButton = modalFooter.querySelector("#checkout-btn");
-}else{
-    const modalText = document.createElement("h2");
-    modalClose.className = "modal-body";
-    modalText.innerText = "Your cart is empty";
-    modalContainer.append(modalText);
-}
-}; 
+    // mp;
+    // Add SDK credentials
+// REPLACE WITH YOUR PUBLIC KEY AVAILABLE IN: https://developers.mercadopago.com/panel
+const mercadopago = new MercadoPago("TEST-41970c90-c65f-4b7e-b021-e644e0852c07", {
+    locale: 'es-AR' // The most common are: 'pt-BR', 'es-AR' and 'en-US'
+  });
+  
+const checkoutButton=modalFooter.querySelector("#checkout-btn");
 
-cartBtn.addEventListener("click", displayCart);
 
-const deleteCartProduct =(id)=> {
-    const foundId = cart.findIndex((element)=> element.id === id);
-    cart.splice(foundId, 1);
-    displayCart();
-}
+  
+    checkoutButton.addEventListener("click",function(){
 
-const displayCartcounter=()=>{
-    const cartLength = cart.reduce((acc, el) => acc + el.quanty, 0);
-    if(cartLength>0){
-        cartCounter.style.display = "block";
-        cartCounter.innerText = cartLength;
-    }else{
-        cartCounter.style.display = "none";
-    }
+    checkoutButton.remove();
+  
+    const orderData = {
+      quantity: 1,
+      description: "compra de ecommerce",
+      price: total,
+    };
+  
+    fetch("http://localhost:8080/create_preference", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    })
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (preference) {
+        createCheckoutButton(preference.id);
+      })
+  
+      .catch(function () {
+        alert("Unexpected error");
+      });
     
+    });
+  
+  
+  function createCheckoutButton(preferenceId) {
+    // Initialize the checkout
+    const bricksBuilder = mercadopago.bricks();
+  
+    const renderComponent = async (bricksBuilder) => {
+      //if (window.checkoutButton) window.checkoutButton.unmount();
+      
+      await bricksBuilder.create(
+        'wallet',
+        'button-checkout', // class/id where the payment button will be displayed
+        {
+          initialization: {
+            preferenceId: preferenceId
+          },
+          callbacks: {
+            onError: (error) => console.error(error),
+            onReady: () => {}
+          }
+        }
+      );
+    };
+    window.checkoutButton =  renderComponent(bricksBuilder);
+  }
+
+
+}   else {
+    const modalText=document.createElement("h2");
+    modalText.className="modal-body";
+    modalText.innerText="you cart is empty";
+    modalContainer.append(modalText);
+   }
+
+  };
+
+cartBtn.addEventListener("click", displayCart)
+
+const deleteCartProduct =(id)=>{
+    const foundId = cart.findIndex((element)=>element.id===id)
+    cart.splice(foundId,1);
+    displayCart();
+    displayCarCounter();
 };
+
+const displayCarCounter=()=>{
+    const cartLength= cart.reduce((acc,el)=>acc + el.quanty,0);
+    if(cartLength>0){
+        cartCounter.style.display="block"
+        cartCounter.innerText=cartLength;
+    }else{
+        cartCounter.style.display="none";
+    }
+}
