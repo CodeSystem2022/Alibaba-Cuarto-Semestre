@@ -56,6 +56,59 @@ public class EstudiantesApplication implements CommandLineRunner {
                 logger.info(nl+"Listado de estudiantes: "+nl);
                 List<Estudiantes2022> estudiantes = estudianteServicio.listarEstudiantes();
                 estudiantes.forEach((estudiante -> logger.info(estudiante.toString()+nl)));}
+            case 2 ->{// Buscar
+                logger.info("Digite el id del estudiante a buscar: ");
+                var idEstudiante = Integer.parseInt(consola.nextLine());
+                Estudiantes2022 estudiante =
+                        estudianteServicio.buscarEstudiantePorId(idEstudiante);
+                if (estudiante != null)
+                    logger.info("Estudiante encontrado: "+estudiante +nl);
+                else
+                    logger.info("El estudiante no fue encontrado: "+estudiante +nl);
+            }
+            case  3 ->{ //Agregar
+                logger.info("Agregar estudiante: "+nl);
+                logger.info("Nombre: ");
+                var nombre = consola.nextLine();
+                logger.info("Apellido: ");
+                var apellido = consola.nextLine();
+                logger.info("Telefono: ");
+                var telefono = consola.nextLine();
+                logger.info("Email: ");
+                var email = consola.nextLine();
+                // Crear Objeto estudiante sin el id
+                var estudiante = new Estudiantes2022();
+                estudiante.setNombre(nombre);
+                estudiante.setApellido(apellido);
+                estudiante.setTelefono(telefono);
+                estudiante.setEmail(email);
+                estudianteServicio.guardarEstudiante(estudiante);
+                logger.info("Estudiante agregado: "+estudiante+nl);
+            }
+            case  4 -> {//Modificar
+                logger.info("Modificar Estudiante: "+nl);
+                logger.info("Ingrese el id del estudiante: ");
+                var idEstudiante = Integer.parseInt(consola.nextLine());
+                // Buscamos el estudiante a modificar
+                Estudiantes2022 estudiante = estudianteServicio.buscarEstudiantePorId(idEstudiante);
+                if (estudiante != null){
+                    logger.info("Nombre: ");
+                    var nombre = consola.nextLine();
+                    logger.info("Apellido: ");
+                    var apellido = consola.nextLine();
+                    logger.info("Telefono: ");
+                    var telefono = consola.nextLine();
+                    logger.info("Email: ");
+                    var email = consola.nextLine();
+                    estudiante.setNombre(nombre);
+                    estudiante.setApellido(apellido);
+                    estudiante.setTelefono(telefono);
+                    estudiante.setEmail(email);
+                    estudianteServicio.guardarEstudiante(estudiante);
+                    logger.info("Estudiante modificado: "+estudiante+nl);
+                }
+                else
+                    logger.info("El estudiante no fue encontrado con el id: "+idEstudiante+nl);
         }
     }//Fin switch
         return salir;
