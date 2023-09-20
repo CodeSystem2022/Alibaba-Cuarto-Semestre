@@ -6,17 +6,26 @@ const path = require("path");
 
 // REPLACE WITH YOUR ACCESS TOKEN AVAILABLE IN: https://developers.mercadopago.com/panel
 mercadopago.configure({
-	access_token: "<ACCESS_TOKEN>",
+	access_token:"TEST-1634454575192444-091223-c20ef602c2497325612943683f7cec7f-158012802",
 });
+// codigo extra agregago 
+app.use("/client/js", express.static(path.join(__dirname, "../client/js"), {
+	setHeaders: (res) => {
+	  res.setHeader("Content-Type", "text/javascript");
+	},
+  }));
+
 
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
-app.use(express.static(path.join(__dirname, "../client")));
+app.use(express.static(path.join(__dirname,"../client")))
+app.use("/client/media", express.static(path.join(__dirname, "../client/media")));
 app.use(cors());
+
 app.get("/", function () {
-	path.resolve(__dirname, "..", "client", "index.html");
+	(path.resolve(__dirname,"..","client","index.html"));
+	es.sendFile(filePath);
 });
 
 app.post("/create_preference", (req, res) => {
