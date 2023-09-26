@@ -1,4 +1,5 @@
 import express from "express";
+import morgan from "morgan";
 
 const app = express();
 
@@ -13,7 +14,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({
         status:"error",
         message: err.message
-     })
+     });
 });
 
 
