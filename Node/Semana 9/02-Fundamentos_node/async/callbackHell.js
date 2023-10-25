@@ -31,7 +31,11 @@ function conversacion(nombre, veces, callback){
 }
 //--Proceso Principal
 console.log('iniciando el proceso...');
-hola('Ariel', adios);
+hola('Ariel', function (nombre){
+    conversacion(nombre, 4, function (){
+        console.log('Terminando el proceso...');
+    });
+});
 //hola('carlos', function (nombre) {
 //    hablar(function() {
 //        hablar(function() {
