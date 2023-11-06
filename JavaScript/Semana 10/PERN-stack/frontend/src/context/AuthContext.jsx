@@ -1,72 +1,100 @@
-
-import { createContext, useState, useContext, useEffect } from "react";
-import axios from "axios";
+import { createContext, useState, useContext ,useEffect } from "react";
+import Cookie from "js-cookie";
+import axios from "../api/axios";
 
 export const AuthContext = createContext();
 
 export const useAuth = () => {
-    const context = useContext(AuthContext);
-    if(!context){
-        throw new Error("useAuth must be used within AuthProvider");
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within AuthProvider");
+  }
+  return context;
+};
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [isAuth, setIsAuth] = useState(false);
+  const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const signin = async (data) => {
+    try {
+      const res = await axios.post("/signin", data);
+
+      setUser(res.data);
+      setIsAuth(true);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      if (Array.isArray(error.response.data)) {
+        return setErrors(error.response.data);
+      }
+      setErrors([error.response.data.message]);
     }
-    return context;
-}
+  };
 
-export function AuthProvider ({children}) {
-    const [user, setUser] = useState(null);
-    const [isAuth, setIsAuth] = useState(false);
-    const [errors, setErrors] = useState(null);
+  const signup = async (data) => {
+    try {
+      const res = await axios.post("/signup", data);
+      setUser(res.data);
+      setIsAuth(true);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      if (Array.isArray(error.response.data)) {
+        return setErrors(error.response.data);
+      }
+      setErrors([error.response.data.message]);
+    }
+  };
 
-    const signin = async (data) => {
-        try{
-            const res = await axios.post("http://localhost:3000/api/signin", data, {
-                withCredentials: true,
-              });
-              setUser(res.data);
-              setIsAuth(true);
+  const signout = async() => {
+    const res = await axios.post("/signout");
+    setUser(null);
+    setIsAuth(false);
+    return res.data;
+  }
 
-        } catch (error) {
-            console.log(error)
-            if(Array.isArray(error.reponse.data)){
-                return setErrors(error.reponse.data)
-            }
-            setErrors([error.reponse.data.message]);
-        }
-    };
-
-    const signup = async(data) => { 
-        try {
-            const res = await axios.post("http://localhost:3000/api/signup", data, {
-                withCredentials: true,
-              });
+    useEffect(() => {
+      setLoading(true);
+        if (Cookie.get("token")) {
+            axios.get("/profile").then((res) => {
                 setUser(res.data);
                 setIsAuth(true);
-            return res.data;
-        } catch (error) {
-            console.log(error)
-            if(Array.isArray(error.reponse.data)){
-                return setErrors(error.reponse.data)
-            }
-            setErrors([error.reponse.data.message]);
+                setLoading(false);
+            }).catch((error) => {
+                setUser(null);
+                setIsAuth(false);
+                setLoading(false);
+                console.log(error);
+            });
         }
-    };
+        setLoading(false);
+    }, []);
 
-    useEffect{() => {
-        const fetchUser = async () => {
-            try {
-                
-            }
-        }
-    }
-
-    return <AuthContext.Provider value={{
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        setErrors(null);
+      }, 4000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }, [errors]);
+  return (
+    <AuthContext.Provider
+      value={{
         user,
         isAuth,
         errors,
         signup,
         setUser,
         signin,
-    }}>
-        {children}
+        signout,
+        loading,
+      }}
+    >
+      {children}
     </AuthContext.Provider>
-} 
+  );
+}

@@ -2,6 +2,5 @@ import app from "./app.js";
 
 app.listen(3000);
 
-console.log('Server on port', 3000);   
-    
+console.log("El servidor ON en puerto", 3000);
 
