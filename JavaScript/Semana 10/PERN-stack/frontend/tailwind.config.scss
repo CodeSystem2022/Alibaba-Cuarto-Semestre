@@ -1,0 +1,12 @@
+/** @import 'tailwindscss/src/helper';**/
+
+export default {
+  content: [
+    "./index.html",
+    "{./scr/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}

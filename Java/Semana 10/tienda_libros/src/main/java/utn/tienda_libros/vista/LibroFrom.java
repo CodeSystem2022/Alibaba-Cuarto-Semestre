@@ -8,12 +8,10 @@ import utn.tienda_libros.servicio.LibroServicio;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
+import java.awt.event.*;
 
 @Component
-public class LibroForm extends JFrame {
+public class LibroFrom extends JFrame {
     LibroServicio libroServicio;
     private JPanel panel;
     private JTable tablaLibros;
@@ -28,10 +26,11 @@ public class LibroForm extends JFrame {
     private DefaultTableModel tablaModeloLibros;
 
     @Autowired
-    public LibroForm(LibroServicio libroServicio) {
+    public LibroFrom(LibroServicio libroServicio){
         this.libroServicio = libroServicio;
         iniciarForma();
         agregarButton.addActionListener(e -> agregarLibro());
+
         tablaLibros.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -40,10 +39,10 @@ public class LibroForm extends JFrame {
             }
         });
         modificarButton.addActionListener(e -> modificarLibro());
-        eliminarButton.addActionListener(e -> eliminarLibro());
+        eliminarButton.addActionListener(e -> eliminarLibro())
     }
 
-    private void iniciarForma() {
+    private void iniciarForma(){
         setContentPane(panel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -51,8 +50,8 @@ public class LibroForm extends JFrame {
         //Para obtener las dimensiones de la ventana
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension tamanioPantalla = toolkit.getScreenSize();
-        int x = (tamanioPantalla.width - getWidth()) / 2;
-        int y = (tamanioPantalla.height - getHeight()) / 2;
+        int x = (tamanioPantalla.width - getWidth()/2);
+        int y = (tamanioPantalla.height - getHeight()/2);
         setLocation(x, y);
     }
 
@@ -67,77 +66,83 @@ public class LibroForm extends JFrame {
         var autor = autorTexto.getText();
         var precio = Double.parseDouble(precioTexto.getText());
         var existencias = Integer.parseInt(existenciasTexto.getText());
-        //Creamos el objeto de Libro
-        var libro = new Libro(null, nombreLibro, autor, precio, existencias);
-        //libro.setNombreLibro(nombreLibro);
-        //libro.setAutor(autor);
-        //libro.setPrecio(precio);
-        //libro.setExistencias(existencias);
+        //Creamos el objeto libro
+        int idLibro = 0;
+        var libro = new Libro(idLibro, nombreLibro, autor, precio, existencias);
+        libro.setNombreLibro(nombreLibro);
+        libro.setAutor(autor);
+        libro.setPrecio(precio);
+        libro.setExistencias(existencias);
         this.libroServicio.guardarLibro(libro);
-        mostrarMensaje("Se agrego el libro ...");
+        mostrarMensaje("Se agrego el libro...");
         limpiarFormulario();
         listarLibros();
     }
 
     private void cargarLibroSeleccionado(){
-        //Los indices de las colunas empiezan en 0
-        var renglon = tablaLibros.getSelectedRow();
+        //Los indices de las columnas inician en 0
+       var renglon = tablaLibros.getSelectedRows();
         if(renglon != -1){
             String idLibro = tablaLibros.getModel().getValueAt(renglon, 0).toString();
             idTexto.setText(idLibro);
-            String nombreLibro = tablaLibros.getModel().getValueAt(renglon, 1).toString();
+            String nombreLibro =
+                    tablaLibros.getModel().getValueAt(renglon, 1).toString();
             libroTexto.setText(nombreLibro);
-            String autor = tablaLibros.getModel().getValueAt(renglon, 2).toString();
-            autorTexto.setText(autor);
-            String precio = tablaLibros.getModel().getValueAt(renglon, 3).toString();
-            precioTexto.setText(precio);
-            String existencias = tablaLibros.getModel().getValueAt(renglon, 4).toString();
-            existenciasTexto.setText(existencias);
+            String autor =
+                    tablaLibros.getModel().getValueAt(renglon, 2).toString();
+            libroTexto.setText(autor);
+            String precio =
+                    tablaLibros.getModel().getValueAt(renglon, 3).toString();
+            libroTexto.setText(precio);
+            String existencias =
+                    tablaLibros.getModel().getValueAt(renglon, 4).toString();
+            libroTexto.setText(existencias);
         }
     }
 
     private void modificarLibro(){
-        if(idTexto.equals("")){
-            mostrarMensaje("Debes seleccionar un registro en la tabla");
+        if(this.idTexto.equals("")) {
+            mostrarMensaje("Debe seleccionar un registro en la tabla");
         }
         else {
             //Verificamos que nombre del libro no sea nulo
             if(libroTexto.getText().equals("")){
-                mostrarMensaje("Ingrese el nombre del libro");
+                mostrarMensaje("Digite el nombre del libro...");
                 libroTexto.requestFocusInWindow();
                 return;
             }
-            //Llenamos el objeto libro a actualizar
+            // Llenamos el objeto libre a actualizar
             int idLibro = Integer.parseInt(idTexto.getText());
-            var nombreLibro = libroTexto.getText();
-            var autor = autorTexto.getText();
-            var precio = Double.parseDouble(precioTexto.getText());
-            var existencias = Integer.parseInt(existenciasTexto.getText());
+            var nombreLibro =libroTexto.getText();
+            var autor =autorTexto.getText();
+            var precio =Double.parseDouble(precioTexto.getText());
+            var existencias =Integer.parseInt(existenciasTexto.getText());
             var libro = new Libro(idLibro, nombreLibro, autor, precio, existencias);
             libroServicio.guardarLibro(libro);
-            mostrarMensaje("Se modifico el libro ...");
+            mostrarMensaje("Se modifico el libro...");
             limpiarFormulario();
             listarLibros();
         }
     }
 
     private void eliminarLibro(){
-        var renglon = tablaLibros.getSelectedRow();
+        var renglon = tablaLibros.getSelectedRows();
         if(renglon != -1){
             String idLibro =
-                    tablaLibros.getModel().getValueAt(renglon, 0).toString();
+                    tablaLibros.getModel().getValueAt((renglon, 0).toString());
             var libro = new Libro();
             libro.setIdLibro(Integer.parseInt(idLibro));
             libroServicio.eliminarLibro(libro);
-            mostrarMensaje("Libro " + idLibro + " ELIMINADO");
+            mostrarMensaje("Libro "+idLibro+" ELIMINADO");
             limpiarFormulario();
             listarLibros();
         }
         else {
-            mostrarMensaje("No se ha seleccionado ningun libro de la tabla a eliminar");
+            mostrarMensaje("No se ha seleccionado ningun libro de la tabla");
         }
     }
-    private void limpiarFormulario(){
+
+    private void limpiarFormulario() {
         libroTexto.setText("");
         autorTexto.setText("");
         precioTexto.setText("");
@@ -151,30 +156,30 @@ public class LibroForm extends JFrame {
     private void createUIComponents() {
         idTexto = new JTextField("");
         idTexto.setVisible(false);
-        this.tablaModeloLibros = new DefaultTableModel(0,5){
+        this.tablaModeloLibros = new DefaultTableModel(0, 5){
             @Override
-            public boolean isCellEditable(int row, int column) {
+            public  boolean isCellEditable(int row, int column){
                 return false;
             }
         };
         String[] cabecera = {"Id", "Libro", "Autor", "Precio", "Existencias"};
         this.tablaModeloLibros.setColumnIdentifiers(cabecera);
-        //Intanciar el objeto de JTable
-        this.tablaLibros = new JTable(this.tablaModeloLibros);
-        //Evitamos que se seleccionen varios registros
+        //Instanciar el objeto de Jtaple
+        this.tablaLibros = new JTable(tablaModeloLibros);
+        // Evitamos que se seleccionen varios registros
         tablaLibros.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         listarLibros();
     }
 
-    private void listarLibros() {
+    private  void listarLibros() {
         //Limpiar la tabla
         tablaModeloLibros.setRowCount(0);
-        //Obtener Libros de la BD
+        //Obtener los libros de la BD
         var libros = libroServicio.listarLibros();
         //Iteramos cada libro
-        libros.forEach((libro) -> {//Función Lambda
+        libros.forEach((libro) -> {// Funcion Lambda
             //Creamos cada registro para agregarlos a la tabla
-            Object[] renglonLibro = {
+            Object [] renglonLibro = {
                     libro.getIdLibro(),
                     libro.getNombreLibro(),
                     libro.getAutor(),
