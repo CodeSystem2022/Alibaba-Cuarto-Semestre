@@ -1,1 +1,0 @@
-SELECT * FROM tienda_libros_db.libro;
